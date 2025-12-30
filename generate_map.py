@@ -72,17 +72,31 @@ class MapGenerator:
             ascii_map += line + "\n"
         return ascii_map
 
-    def save_to_json(self, filename="today_map.json"):
-        """Save map data to JSON file."""
+def save_to_json(self, filename="today_map.json"):
+        """Save map data to JSON file with compact grid rows."""
         data = {
             "date": datetime.date.today().isoformat(),
             "seed": self.seed,
             "width": self.width,
-            "height": self.height,
-            "grid": self.grid
+            "height": self.height
         }
+        
         with open(filename, 'w') as f:
-            json.dump(data, f, indent=4)
+            json_str = json.dumps(data, indent=4)
+            f.write(json_str[:-1])
+            
+            f.write(',\n    "grid": [\n')
+            
+            for i, row in enumerate(self.grid):
+                row_str = json.dumps(row)
+                
+                if i < len(self.grid) - 1:
+                    f.write(f'        {row_str},\n')
+                else:
+                    f.write(f'        {row_str}\n')
+            
+            f.write('    ]\n}')
+            
         print(f"Map data saved to {filename}")
 
 def update_readme(ascii_art, seed):
