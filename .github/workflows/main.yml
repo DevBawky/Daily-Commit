@@ -1,4 +1,4 @@
-name: Daily Grass Planter
+name: Daily Map Generator
 
 on:
   schedule:
@@ -9,26 +9,30 @@ permissions:
   contents: write
 
 jobs:
-  plant-grass:
+  generate-map:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Update Date File
-      run: |
-        echo "Last run: $(date)" > log.txt
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Generate Map
+      run: python generate_map.py
 
     - name: Commit and Push
       run: |
         git config --global user.name "DevBawky"
         git config --global user.email "ghini7170@gmail.com"
         
-        git add log.txt
+        git add README.md
         
         if [[ -n $(git status -s) ]]; then
-          git commit -m "Daily gardening: $(date)"
+          git commit -m "🗺️ Update Daily Map: $(date)"
           git push
         else
           echo "No changes to commit"
