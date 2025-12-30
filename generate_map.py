@@ -72,7 +72,7 @@ class MapGenerator:
             ascii_map += line + "\n"
         return ascii_map
 
-def save_to_json(self, filename="today_map.json"):
+    def save_to_json(self, filename="today_map.json"):
         """Save map data to JSON file with compact grid rows."""
         data = {
             "date": datetime.date.today().isoformat(),
