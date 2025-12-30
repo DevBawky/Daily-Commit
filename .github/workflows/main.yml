@@ -22,7 +22,7 @@ jobs:
         python-version: '3.x'
 
     - name: Run Map Generator Script
-      run: python main.py
+      run: python generate_map.py
 
     - name: Commit and Push changes
       run: |
