@@ -1,0 +1,35 @@
+name: Daily Grass Planter
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  plant-grass:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Update Date File
+      run: |
+        echo "Last run: $(date)" > log.txt
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "action@github.com"
+        
+        git add log.txt
+        
+        if [[ -n $(git status -s) ]]; then
+          git commit -m "Daily gardening: $(date)"
+          git push
+        else
+          echo "No changes to commit"
+        fi
