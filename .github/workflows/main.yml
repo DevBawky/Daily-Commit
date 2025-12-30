@@ -22,8 +22,8 @@ jobs:
 
     - name: Commit and Push
       run: |
-        git config --global user.name "GitHub Action Bot"
-        git config --global user.email "action@github.com"
+        git config --global user.name "DevBawky"
+        git config --global user.email "ghini7170@gmail.com"
         
         git add log.txt
         
